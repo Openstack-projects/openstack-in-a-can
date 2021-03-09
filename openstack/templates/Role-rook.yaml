@@ -1,0 +1,21 @@
+{{- define "Role-rook" -}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}-rook-openstack
+  namespace: rook-ceph
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+    resourceNames:
+      - rook-ceph-config
+      - cinder-client-key
+      - glance-client-key
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Role-rook" ) }}

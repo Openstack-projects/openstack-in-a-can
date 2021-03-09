@@ -1,0 +1,12 @@
+
+- include_tasks: service-and-endpoints.yaml
+  with_dict: "{{ endpoints }}"
+  loop_control:
+    loop_var: endpoint
+
+- include_tasks: domain-project-user.yaml
+  with_dict: "{{ keystone_users }}"
+  loop_control:
+    loop_var: keystone_user
+
+- include_tasks: heat-domain.yaml

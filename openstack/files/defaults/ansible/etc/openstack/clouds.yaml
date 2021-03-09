@@ -1,0 +1,12 @@
+clouds:
+  openstack_helm:
+    region_name: RegionOne
+    identity_api_version: 3
+    cacert: /var/run/secrets/airshipit.org/tls/ca/ca.crt
+    auth:
+      username: 'admin'
+      password: 'password'
+      project_name: 'admin'
+      project_domain_name: 'default'
+      user_domain_name: 'default'
+      auth_url: 'https://openstack.cluster.local/identity/v3'

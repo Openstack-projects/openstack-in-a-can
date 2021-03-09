@@ -1,0 +1,30 @@
+{{- define "Service-openstack" -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}
+  labels: {{- include "helpers.labels.labels" . | nindent 4 }}
+spec:
+  selector: {{- include "helpers.labels.matchLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: https
+      targetPort: https
+      port: {{ .Values.params.endpoints.port.https }}
+      protocol: TCP
+    - name: rabbitmq
+      targetPort: rabbitmq
+      port: 5672
+      protocol: TCP
+    - name: n-meta
+      targetPort: n-meta
+      port: 8775
+      protocol: TCP
+    - name: memcache
+      targetPort: memcache
+      port: 11211
+      protocol: TCP
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Service-openstack" ) }}

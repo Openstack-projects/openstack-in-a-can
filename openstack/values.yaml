@@ -1,0 +1,114 @@
+# Default values for dex-aio.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+images:
+  applications:
+    ansible:
+      tag: latest
+      name: port/openstack-ansible
+      repo: quay.io
+    mariadb:
+      tag: 10.5.8-focal
+      name: mariadb
+      repo: docker.io
+    memcached:
+      tag: 1.6.6-alpine
+      name: memcached
+      repo: docker.io
+    rabbitmq:
+      tag: 3.8.6-alpine
+      name: rabbitmq
+      repo: docker.io
+    keystone:
+      tag: bullseye-victoria
+      name: port/loci-keystone
+      repo: quay.io
+    heat:
+      tag: bullseye-victoria
+      name: port/loci-heat
+      repo: quay.io
+    glance:
+      tag: bullseye-victoria
+      name: port/loci-glance
+      repo: quay.io
+    nova:
+      tag: bullseye-victoria
+      name: port/loci-nova
+      repo: quay.io
+    placement:
+      tag: bullseye-victoria
+      name: port/loci-placement
+      repo: quay.io
+    neutron:
+      tag: bullseye-master
+      name: port/loci-neutron
+      repo: quay.io
+    cinder:
+      tag: bullseye-victoria
+      name: port/loci-cinder
+      repo: quay.io
+    horizon:
+      tag: bullseye-victoria
+      name: port/loci-horizon
+      repo: quay.io
+    libvirt:
+      tag: latest
+      name: port/openstack-libvirt
+      repo: quay.io
+    openvswitch:
+      tag: latest
+      name: port/openstack-openvswitch
+      repo: quay.io
+    apache:
+      tag: latest
+      name: port/openstack-apache
+      repo: quay.io
+  pull:
+    policy: IfNotPresent
+
+node_labels:
+  openstack:
+    key: "kubernetes.io/os"
+    value: linux
+
+params:
+  fast_start: true
+  storage:
+    openstack:
+      enabled: false
+  endpoints:
+    hostname: openstack.cluster.local
+    port:
+      https: 443
+      http: 80
+    tls:
+      issuer:
+        name: workload-cluster-ca-issuer
+        kind: Issuer
+
+overrides: {}
+  # deployment:
+  #   openstack:
+  #     spec:
+  #       replicas: 1
+  #       template:
+  #         spec:
+  #           containers:
+  #             - name: glance
+  #               imagePullPolicy: Always
+  #             - name: cinder
+  #               imagePullPolicy: Always
+  #             - name: cinder-scheduler
+  #               imagePullPolicy: Always
+  #             - name: cinder-volume
+  #               imagePullPolicy: Always
+  #             - name: cinder-backup
+  #               imagePullPolicy: Always
+
+configuration: {}
+  # ansible:
+  #   /hey: |
+  #     its a file!
+
+

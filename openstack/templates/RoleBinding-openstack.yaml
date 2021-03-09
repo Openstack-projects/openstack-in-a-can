@@ -1,0 +1,18 @@
+{{- define "RoleBinding-openstack" -}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}-openstack
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "helpers.labels.fullname" . }}-openstack
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "helpers.labels.fullname" . }}-openstack
+    namespace: {{ .Release.Namespace }}
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "RoleBinding-openstack" ) }}

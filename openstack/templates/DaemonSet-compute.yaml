@@ -1,0 +1,10 @@
+{{- define "DaemonSet-compute" -}}
+{{- $_ := set .Values "_compute_base_daemonset" ( fromYaml ( toString ( include "_compute_base_daemonset" . ) ) ) -}}
+{{- $_ := set .Values "_libvirt" ( fromYaml ( toString ( include "_libvirt" . ) ) ) -}}
+{{- $_ := set .Values "_nova_compute" ( fromYaml ( toString ( include "_nova_compute" . ) ) ) -}}
+{{- $_ := set .Values "_daemonset_compute_out" dict -}}
+{{- include "helpers.template.merge" ( dict "merge_same_named" true "values" ( tuple .Values._daemonset_compute_out .Values._compute_base_daemonset .Values._libvirt .Values._nova_compute ) ) -}}
+{{- .Values._daemonset_compute_out | toYaml -}}
+{{- end -}}
+
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "DaemonSet-compute" ) }}

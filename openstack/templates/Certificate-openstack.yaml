@@ -1,0 +1,23 @@
+{{- define "Certificate-openstack" -}}
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}
+  labels: {{- include "helpers.labels.labels" . | nindent 4 }}
+spec:
+  secretName: {{ template "helpers.labels.fullname" . }}-tls
+  issuerRef:
+    name: ca-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: {{ .Values.params.endpoints.tls.issuer.kind }}
+  commonName: {{ .Values.params.endpoints.hostname }}
+  organization:
+    - Kubernetes API
+  dnsNames:
+    - {{ .Values.params.endpoints.hostname }}
+    - {{ template "helpers.labels.fullname" . }}
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Certificate-openstack" ) }}

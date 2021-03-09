@@ -1,0 +1,81 @@
+permissions:
+  - configure: ".*"
+    read: ".*"
+    user: keystone
+    vhost: keystone
+    write: ".*"
+  - configure: ".*"
+    read: ".*"
+    user: heat
+    vhost: heat
+    write: ".*"
+  - configure: ".*"
+    read: ".*"
+    user: glance
+    vhost: glance
+    write: ".*"
+  - configure: ".*"
+    read: ".*"
+    user: nova
+    vhost: nova
+    write: ".*"
+  - configure: ".*"
+    read: ".*"
+    user: neutron
+    vhost: neutron
+    write: ".*"
+  - configure: ".*"
+    read: ".*"
+    user: cinder
+    vhost: cinder
+    write: ".*"
+users:
+  - name: keystone
+    password: password
+    tags: ''
+  - name: heat
+    password: password
+    tags: ''
+  - name: glance
+    password: password
+    tags: ''
+  - name: nova
+    password: password
+    tags: ''
+  - name: neutron
+    password: password
+    tags: ''
+  - name: cinder
+    password: password
+    tags: ''
+vhosts:
+  - limits: []
+    metadata:
+      description: vhost for keystone
+      tags: []
+    name: keystone
+  - limits: []
+    metadata:
+      description: vhost for heat
+      tags: []
+    name: heat
+  - limits: []
+    metadata:
+      description: vhost for glance
+      tags: []
+    name: glance
+  - limits: []
+    metadata:
+      description: vhost for nova
+      tags: []
+    name: nova
+  - limits: []
+    metadata:
+      description: vhost for neutron
+      tags: []
+    name: neutron
+  - limits: []
+    metadata:
+      description: vhost for cinder
+      tags: []
+    name: cinder

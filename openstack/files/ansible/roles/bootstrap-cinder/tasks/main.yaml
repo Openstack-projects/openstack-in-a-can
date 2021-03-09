@@ -1,0 +1,11 @@
+- name: "Waiting for cinder to be up"
+  shell: "openstack volume service list"
+  register: task_result
+  until: task_result.failed == false
+  retries: 120
+  delay: 1
+
+- include_tasks: volume-type.yaml
+  loop: "{{ volume_types }}"
+  loop_control:
+    loop_var: volume_type

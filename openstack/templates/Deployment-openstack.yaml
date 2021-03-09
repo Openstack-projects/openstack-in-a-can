@@ -1,0 +1,21 @@
+{{- define "Deployment-openstack" -}}
+{{- $_ := set .Values "_base_deployment" ( fromYaml ( toString ( include "_base_deployment" . ) ) ) -}}
+{{- $_ := set .Values "_memcached" ( fromYaml ( toString ( include "_memcached" . ) ) ) -}}
+{{- $_ := set .Values "_rabbitmq" ( fromYaml ( toString ( include "_rabbitmq" . ) ) ) -}}
+{{- $_ := set .Values "_mariadb" ( fromYaml ( toString ( include "_mariadb" . ) ) ) -}}
+{{- $_ := set .Values "_apache" ( fromYaml ( toString ( include "_apache" . ) ) ) -}}
+{{- $_ := set .Values "_ansible" ( fromYaml ( toString ( include "_ansible" . ) ) ) -}}
+{{- $_ := set .Values "_keystone" ( fromYaml ( toString ( include "_keystone" . ) ) ) -}}
+{{- $_ := set .Values "_horizon" ( fromYaml ( toString ( include "_horizon" . ) ) ) -}}
+{{- $_ := set .Values "_heat" ( fromYaml ( toString ( include "_heat" . ) ) ) -}}
+{{- $_ := set .Values "_glance" ( fromYaml ( toString ( include "_glance" . ) ) ) -}}
+{{- $_ := set .Values "_cinder" ( fromYaml ( toString ( include "_cinder" . ) ) ) -}}
+{{- $_ := set .Values "_placement" ( fromYaml ( toString ( include "_placement" . ) ) ) -}}
+{{- $_ := set .Values "_nova" ( fromYaml ( toString ( include "_nova" . ) ) ) -}}
+{{- $_ := set .Values "_neutron" ( fromYaml ( toString ( include "_neutron" . ) ) ) -}}
+{{- $_ := set .Values "_deployment_out" dict -}}
+{{- include "helpers.template.merge" ( dict "merge_same_named" true "values" ( tuple .Values._deployment_out .Values._base_deployment .Values._memcached .Values._rabbitmq .Values._mariadb .Values._apache .Values._ansible .Values._keystone .Values._horizon .Values._heat .Values._glance .Values._placement .Values._nova .Values._neutron .Values._cinder   ) ) -}}
+{{- .Values._deployment_out | toYaml -}}
+{{- end -}}
+
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Deployment-openstack" ) }}

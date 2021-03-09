@@ -1,0 +1,12 @@
+{{- define "ConfigMap-ansible" -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ printf "%s-%s" ( include "helpers.labels.fullname" $ ) "ansible" }}
+  labels: {{- include "helpers.labels.labels" . | nindent 4 }}
+data:
+{{- include "helpers.files.object_content" ( dict "Global" $ "Source" "ansible" ) | nindent 2 }}
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "ConfigMap-ansible" ) }}

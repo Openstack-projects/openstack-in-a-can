@@ -1,0 +1,10 @@
+{{- define "DaemonSet-openvswitch" -}}
+{{- $_ := set .Values "_openvswitch_base_daemonset" ( fromYaml ( toString ( include "_openvswitch_base_daemonset" . ) ) ) -}}
+{{- $_ := set .Values "_openvswitch" ( fromYaml ( toString ( include "_openvswitch" . ) ) ) -}}
+{{- $_ := set .Values "_neutron_openvswitch" ( fromYaml ( toString ( include "_neutron_openvswitch" . ) ) ) -}}
+{{- $_ := set .Values "_daemonset_openvswitch_out" dict -}}
+{{- include "helpers.template.merge" ( dict "merge_same_named" true "values" ( tuple .Values._daemonset_openvswitch_out .Values._openvswitch_base_daemonset .Values._openvswitch .Values._neutron_openvswitch ) ) -}}
+{{- .Values._daemonset_openvswitch_out | toYaml -}}
+{{- end -}}
+
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "DaemonSet-openvswitch" ) }}

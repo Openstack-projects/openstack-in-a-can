@@ -1,0 +1,9 @@
+- name: "Discovering hosts and adding to cells if required"
+  community.kubernetes.k8s_exec:
+    namespace: "{{ lookup('env', 'POD_NAMESPACE') }}"
+    pod: "{{ lookup('env', 'POD_NAME') }}"
+    container: nova-scheduler
+    command: nova-manage cell_v2 discover_hosts --verbose
+  register: command_status
+- debug:
+    var: command_status.stdout_lines

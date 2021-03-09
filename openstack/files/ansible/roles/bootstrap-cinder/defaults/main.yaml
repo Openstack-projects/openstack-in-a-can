@@ -1,0 +1,5 @@
+volume_types:
+ - name: ceph
+   properties:
+    - key: volume_backend_name
+      value: ceph

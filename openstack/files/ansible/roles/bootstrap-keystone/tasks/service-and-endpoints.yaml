@@ -1,0 +1,17 @@
+- name: "Managing Keystone Service for {{ endpoint.value.name }}"
+  os_keystone_service:
+    state: present
+    name: "{{ endpoint.value.name }}"
+    service_type: "{{ endpoint.key }}"
+    description: "OpenStack {{ endpoint.key | capitalize }} Service"
+- name: "Managing Keystone Endpoints for {{ endpoint.value.name }}"
+  os_keystone_endpoint:
+    service: "{{ endpoint.value.name }}"
+    endpoint_interface: "{{ item }}"
+    url: "{{ url_base[item] }}{{ endpoint.key }}{{ endpoint.value.path }}"
+    region: RegionOne
+    state: present
+  with_items:
+    - internal
+    - public
+    - admin

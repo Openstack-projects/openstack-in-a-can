@@ -1,0 +1,22 @@
+{{- define "PersistentVolumeClaim-openstack" -}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "%s-%s" ( include "helpers.labels.fullname" $ ) "openstack" }}
+  labels: {{- include "helpers.labels.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 16Gi
+  storageClassName: ceph-rbd
+...
+{{- end -}}
+{{- if .Values.params.storage.openstack.enabled -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "PersistentVolumeClaim-openstack" ) }}
+{{- end -}}
+
+

@@ -1,0 +1,35 @@
+- name: "Ensuring domain {{ keystone_user.value.domain_name }} exists for {{ keystone_user.key }}"
+  os_keystone_domain:
+    state: present
+    name: "{{ keystone_user.value.domain_name }}"
+    description: Demo Domain
+  register: service_domain
+- name: "Ensuring project {{ keystone_user.value.project_name }} exists for {{ keystone_user.key }}"
+  os_project:
+    state: present
+    name: "{{ keystone_user.value.project_name }}"
+    description: demodescription
+    domain_id: "{{ service_domain['domain']['id'] }}"
+    enabled: True
+  register: user_project
+- name: "Ensuring user {{ keystone_user.value.username }} exists for {{ keystone_user.key }}"
+  os_user:
+    state: present
+    name: "{{ keystone_user.value.username }}"
+    password: "{{ keystone_user.value.password }}"
+    domain: "{{ service_domain['domain']['id'] }}"
+    default_project: "{{ user_project['project']['id'] }}"
+  register: user
+
+
+- name: "Ensuring role {{ keystone_user.value.role }} exists for {{ keystone_user.key }}"
+  os_keystone_role:
+    state: present
+    name: "{{ keystone_user.value.role }}"
+  register: role
+- name: "Ensuring role {{ keystone_user.value.role }} is associated with {{ keystone_user.value.username }} for {{ keystone_user.key }}"
+  os_user_role:
+    user: "{{ user['user']['id'] }}"
+    role: "{{ role['role']['id'] }}"
+    domain: "{{ service_domain['domain']['id'] }}"
+    project: "{{ user_project['project']['id'] }}"

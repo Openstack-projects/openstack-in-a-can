@@ -1,0 +1,11 @@
+- name: "Waiting for glance to be up"
+  shell: "openstack image list --limit 1"
+  register: task_result
+  until: task_result.failed == false
+  retries: 120
+  delay: 1
+
+- include_tasks: image.yaml
+  loop: "{{ images }}"
+  loop_control:
+    loop_var: image

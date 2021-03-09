@@ -1,0 +1,30 @@
+{{- define "Role-openstack" -}}
+---
+# NOTE(portdirect): The role here is as best we can do with v1 of rbac, we can exec into ANY pod within the
+# namespace, but cannot list them etc. As a result, to ensure some semblance of security, Openstack should
+# be installed into a namespace of its own.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "helpers.labels.fullname" . }}-openstack
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - secrets
+    resourceNames:
+      - {{ printf "%s-%s" ( include "helpers.labels.fullname" $ ) "ceph" }}
+    verbs:
+      - patch
+      - get
+  - apiGroups:
+      - ''
+    resources:
+      - pods/exec
+    verbs:
+      - create
+      - get
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Role-openstack" ) }}

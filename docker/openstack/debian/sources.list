@@ -1,0 +1,2 @@
+deb %%DEBIAN_URL%% bullseye main
+deb %%DEBIAN_URL%% bullseye-updates main

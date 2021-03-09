@@ -1,0 +1,14 @@
+- name: Handle the error
+  block:
+    - name: "Validate cinder volume type '{{ volume_type.name }}' exists"
+      shell: "openstack volume type show {{ volume_type.name }}"
+  rescue:
+    - name: "Creating the cinder volume type '{{ volume_type.name }}'"
+      shell: |
+        openstack volume type create \
+        --public \
+        {% for dict_item in volume_type.properties %}
+        --property "{{dict_item.key}}={{dict_item.value}}" \
+        {% endfor %}
+        {{ volume_type.name }}
+

@@ -1,0 +1,31 @@
+- name: OpenStack management playbook
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - import_role:
+        name: config-rook
+    - name: "Waiting for keystone to be up"
+      os_auth:
+        timeout: 10
+      register: task_result
+      until: task_result.failed == false
+      retries: 120
+      delay: 1
+    - import_role:
+        name: bootstrap-keystone
+    - import_role:
+        name: bootstrap-cinder
+    - import_role:
+        name: bootstrap-glance
+    - import_role:
+        name: bootstrap-nova
+    - name: "Wait for at least one compute to come up"
+      shell: |
+        openstack compute service list --service nova-compute -f value -c State | grep -q "^up$"
+      retries: 1200
+      delay: 1
+      register: result
+      until: result.rc == 0
+    - import_role:
+        name: maintenance

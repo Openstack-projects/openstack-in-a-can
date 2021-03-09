@@ -1,0 +1,8 @@
+- name: "Apply '{{ flavor.name }}' flavor  with {{ flavor.ram }}MB of RAM, {{ flavor.vcpus }} virtual CPU(s), and {{ flavor.disk }}GB of local disk. (ID:{{ ansible_loop.index }})"
+  openstack.cloud.compute_flavor:
+    state: present
+    flavorid: "{{ ansible_loop.index }}"
+    name: "{{ flavor.name }}"
+    ram: "{{ flavor.ram }}"
+    vcpus: "{{ flavor.vcpus }}"
+    disk: "{{ flavor.disk }}"

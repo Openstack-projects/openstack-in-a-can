@@ -1,0 +1,7 @@
+- name: "Getting ceph cluster config and credentials."
+  include_tasks: client-config.yaml
+  loop: "{{ clients|flatten(levels=1) }}"
+  loop_control:
+    loop_var: client
+  vars:
+    mon_addrs: "{{ (lookup('community.kubernetes.k8s', kind='Secret', namespace=rook.cluster_namespace, resource_name=rook.cluster_secret).data.mon_host | b64decode | regex_replace('^\\[', '') | regex_replace('\\]$', '') ).split('],[') }}"

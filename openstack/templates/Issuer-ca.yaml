@@ -1,0 +1,11 @@
+{{- define "Issuer-ca" -}}
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: {{ .Values.params.endpoints.tls.issuer.name }}
+spec:
+  selfSigned: {}
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Issuer-ca" ) }}

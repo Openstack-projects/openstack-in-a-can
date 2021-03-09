@@ -1,0 +1,21 @@
+- name: "Creating a temp directory to download {{ image.name }}'s disk"
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: image
+  register: tmpdir_image
+- name: "Get {{ image.name }}'s {{ image.disk_format }} from {{ image.url }}"
+  ansible.builtin.get_url:
+    url: "{{ image.url }}"
+    dest: "{{ tmpdir_image.path }}/{{ image.url | urlsplit('path') | basename }}"
+- name: "Applying the {{ image.name }} to glance"
+  openstack.cloud.image:
+    name: "{{ image.name }}"
+    container_format: bare
+    disk_format: "{{ image.disk_format }}"
+    state: present
+    filename: "{{ tmpdir_image.path }}/{{ image.url | urlsplit('path') | basename }}"
+    properties: "{{ image.properties }}"
+- name: "Removing the temp directory used to download {{ image.name }}'s disk"
+  ansible.builtin.file:
+    path: "{{ tmpdir_image.path }}"
+    state: absent

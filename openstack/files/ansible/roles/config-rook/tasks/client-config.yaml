@@ -1,0 +1,28 @@
+
+- name: "Getting ceph keyring for '{{ client }}' user from the '{{ client }}-client-key' secret in the '{{ rook.cluster_namespace }}' namespace."
+  set_fact:
+    keyring: "{{ lookup('community.kubernetes.k8s', kind='Secret', namespace=rook.cluster_namespace, resource_name=clientkeyring_secret_name).data[client] | b64decode }}"
+  vars:
+    clientkeyring_secret_name: "{{ client }}-client-key"
+
+- block:
+    - name: "Writing ceph keyring for '{{ client }}' to '/srv/pod/{{ client }}/etc/ceph/ceph.client.{{ client }}.keyring'."
+      when: client != "nova"
+      ansible.builtin.template:
+        src: keyring.j2
+        dest: "/srv/pod/{{ client }}/etc/ceph/ceph.client.{{ client }}.keyring"
+
+    - name: "Writing ceph.conf to '/srv/pod/{{ client }}/etc/ceph/ceph.conf'."
+      when: client != "nova"
+      ansible.builtin.template:
+        src: ceph.conf.j2
+        dest: "/srv/pod/{{ client }}/etc/ceph/ceph.conf"
+
+- name: "Patch the kubernetes secret '{{ nova_secret }}' for the '{{ client }}' user."
+  when: client == "cinder"
+  community.kubernetes.k8s:
+    state: present
+    template: 'k8s-secret.yaml.j2'
+  vars:
+    keyring_file: "{{ lookup('template', 'keyring.j2') }}"
+    ceph_conf: "{{ lookup('template', 'ceph.conf.j2') }}"

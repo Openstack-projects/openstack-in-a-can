@@ -1,0 +1,9 @@
+- block:
+    - name: nova compute cell mapping
+      include_tasks: nova-compute-cell-mapping.yaml
+    - name: update ceph config
+      import_role:
+        name: config-rook
+    - pause:
+        minutes: 5
+    - include_tasks: main.yaml

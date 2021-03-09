@@ -1,0 +1,6 @@
+#jinja2: trim_blocks:False
+{% set mon_ips = [] %}{% for mon_addr in mon_addrs %}{% for mon in mon_addr.split(',') %}{{- mon_ips.append( mon.split(':')[1] ) -}}{% endfor %}{% endfor %}
+[global]
+mon_host = {{ mon_ips|unique|join(' ') }}
+[client.{{ client }}]
+keyring = /etc/ceph/ceph.client.{{ client }}.keyring

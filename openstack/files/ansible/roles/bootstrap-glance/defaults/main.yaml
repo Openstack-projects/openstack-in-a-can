@@ -1,0 +1,13 @@
+images:
+  - name: cirros
+    url: https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
+    disk_format: qcow2
+    properties:
+      cpu_arch: x86_64
+      distro: cirros
+  - name: ubuntu-focal
+    url: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+    disk_format: qcow2
+    properties:
+      cpu_arch: x86_64
+      distro: ubuntu

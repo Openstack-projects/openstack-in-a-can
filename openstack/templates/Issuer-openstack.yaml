@@ -1,0 +1,12 @@
+{{- define "Issuer-openstack" -}}
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: ca-issuer
+spec:
+  ca:
+    secretName: openstack-tls-ca
+...
+{{- end -}}
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Issuer-openstack" ) }}

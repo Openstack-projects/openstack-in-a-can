@@ -1,0 +1,22 @@
+flavors:
+  - name: m1.tiny
+    vcpus: 1
+    ram: 512
+    disk: 1
+  - name: m1.small
+    vcpus: 1
+    ram: 2048
+    disk: 20
+  - name: m1.medium
+    vcpus: 2
+    ram: 4096
+    disk: 40
+  - name: m1.large
+    vcpus: 4
+    ram: 8192
+    disk: 80
+  - name: m1.xlarge
+    vcpus: 8
+    ram: 16384
+    disk: 80
+

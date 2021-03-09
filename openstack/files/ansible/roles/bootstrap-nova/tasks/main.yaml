@@ -1,0 +1,14 @@
+- name: "Waiting for nova to be up"
+  shell: "openstack compute service list"
+  register: task_result
+  until: task_result.failed == false
+  retries: 120
+  delay: 1
+
+- include_tasks: flavor.yaml
+  loop: "{{ flavors }}"
+  loop_control:
+    loop_var: flavor
+    extended: yes
+
+

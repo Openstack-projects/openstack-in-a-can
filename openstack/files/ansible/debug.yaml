@@ -1,0 +1,7 @@
+- name: OpenStack management playbook
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - import_role:
+        name: config-rook

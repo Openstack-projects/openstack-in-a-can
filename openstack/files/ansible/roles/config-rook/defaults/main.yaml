@@ -1,0 +1,7 @@
+rook:
+  cluster_namespace: rook-ceph
+  cluster_secret: rook-ceph-config
+clients:
+  - glance
+  - cinder
+nova_secret: openstack-ceph

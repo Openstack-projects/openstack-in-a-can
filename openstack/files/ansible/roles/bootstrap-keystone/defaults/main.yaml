@@ -1,0 +1,87 @@
+url_base:
+  internal: https://openstack/
+  admin: https://openstack.cluster.local/
+  public: https://openstack.cluster.local/
+
+endpoints:
+  orchestration:
+    name: heat
+    path: "/v1/%(project_id)s"
+  cloudformation:
+    name: heat-cfn
+    path: /v1
+  image:
+    name: glance
+    path: null
+  placement:
+    name: placement
+    path: null
+  compute:
+    name: nova
+    path: "/v2.1/%(tenant_id)s"
+  network:
+    name: neutron
+    path: null
+  volumev2:
+    name: cinderv2
+    path: "/v2/%(tenant_id)s"
+  volumev3:
+    name: cinderv3
+    path: "/v3/%(tenant_id)s"
+
+keystone_users:
+  heat:
+    role: admin
+    region_name: RegionOne
+    username: heat
+    password: password
+    project_name: service
+    domain_name: default
+  heat_trustee:
+    role: admin
+    region_name: RegionOne
+    username: heat-trust
+    password: password
+    project_name: service
+    domain_name: default
+  # heat_stack_user:
+  #   role: admin
+  #   region_name: RegionOne
+  #   username: heat-domain
+  #   password: password
+  #   domain_name: heat
+  glance:
+    role: admin
+    region_name: RegionOne
+    username: glance
+    password: password
+    project_name: service
+    domain_name: default
+  nova:
+    role: admin
+    region_name: RegionOne
+    username: nova
+    password: password
+    project_name: service
+    domain_name: default
+  placement:
+    role: admin
+    region_name: RegionOne
+    username: placement
+    password: password
+    project_name: service
+    domain_name: default
+  neutron:
+    role: admin
+    region_name: RegionOne
+    username: neutron
+    password: password
+    project_name: service
+    domain_name: default
+  cinder:
+    role: admin
+    region_name: RegionOne
+    username: cinder
+    password: password
+    project_name: service
+    domain_name: default

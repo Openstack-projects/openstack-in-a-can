@@ -1,0 +1,36 @@
+- name: User Domain for Heat
+  os_keystone_domain:
+    state: present
+    name: heat
+    description: "Stack projects and users"
+  register: stack_domain
+- debug:
+    var: stack_domain['domain']['id']
+- name: User for Heat
+  os_user:
+    state: present
+    name: heat_domain_admin
+    password: password
+    domain: "{{ stack_domain['domain']['id'] }}"
+  register: user
+- debug:
+    var: user['user']['id']
+- name: Roles for Heat
+  os_keystone_role:
+    state: present
+    name: admin
+  register: admin_role
+- debug:
+    var: admin_role['role']['id']
+- name: Associating roles for heat
+  os_user_role:
+    user: "{{ user['user']['id'] }}"
+    role: "{{ admin_role['role']['id'] }}"
+    domain: "{{ stack_domain['domain']['id'] }}"
+- name: Roles for Heat
+  os_keystone_role:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - heat_stack_owner
+    - heat_stack_user

@@ -1,0 +1,11 @@
+{{- define "DaemonSet-network" -}}
+{{- $_ := set .Values "_network_base_daemonset" ( fromYaml ( toString ( include "_network_base_daemonset" . ) ) ) -}}
+{{- $_ := set .Values "_neutron_dhcp" ( fromYaml ( toString ( include "_neutron_dhcp" . ) ) ) -}}
+{{- $_ := set .Values "_neutron_l3" ( fromYaml ( toString ( include "_neutron_l3" . ) ) ) -}}
+{{- $_ := set .Values "_neutron_metadata" ( fromYaml ( toString ( include "_neutron_metadata" . ) ) ) -}}
+{{- $_ := set .Values "_daemonset_network_out" dict -}}
+{{- include "helpers.template.merge" ( dict "merge_same_named" true "values" ( tuple .Values._daemonset_network_out .Values._network_base_daemonset .Values._neutron_dhcp .Values._neutron_l3 .Values._neutron_metadata ) ) -}}
+{{- .Values._daemonset_network_out | toYaml -}}
+{{- end -}}
+
+{{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "DaemonSet-network" ) }}
