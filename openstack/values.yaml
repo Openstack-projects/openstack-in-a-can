@@ -73,6 +73,8 @@ node_labels:
     value: linux
 
 params:
+  cluster:
+    domain: cluster.local
   fast_start: true
   storage:
     openstack:
@@ -86,6 +88,62 @@ params:
       issuer:
         name: workload-cluster-ca-issuer
         kind: Issuer
+  config:
+    keystone: {}
+    #   "/etc/keystone/keystone.conf":
+    #     DEFAULT:
+    #       debug: true
+    cinder: {}
+    #   "/etc/cinder/cinder.conf":
+    #     DEFAULT:
+    #       debug: true
+    glance: {}
+    #   "/etc/glance/glance-api.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/glance/glance-cache.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/glance/glance-image-import.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/glance/glance-swift-store.conf":
+    #     DEFAULT:
+    #       debug: true
+    heat: {}
+    #   "/etc/heat/heat.conf":
+    #     DEFAULT:
+    #       debug: true
+    neutron: {}
+    #   "/etc/neutron/neutron.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/neutron/dhcp_agent.ini":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/neutron/l3_agent.ini":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/neutron/metadata_agent.ini":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/neutron/plugins/ml2/ml2_conf.ini":
+    #     DEFAULT:
+    #       debug: true
+    nova: {}
+    #   "/etc/nova/nova.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/nova/nova-cpu.conf":
+    #     DEFAULT:
+    #       debug: true
+    #   "/etc/nova/nova_cell1.conf":
+    #     DEFAULT:
+    #       debug: true
+    placement: {}
+    #   "/etc/placement/placement.conf":
+    #     DEFAULT:
+    #       debug: true
 
 overrides: {}
   # deployment:
@@ -110,5 +168,3 @@ configuration: {}
   # ansible:
   #   /hey: |
   #     its a file!
-
-

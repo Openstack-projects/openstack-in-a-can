@@ -126,7 +126,7 @@ SECRET_KEY='9aee62c0-5253-4a86-b189-e0fb71fa503c'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': 'openstack:11211',
+        'LOCATION': '{{ template "helpers.labels.fullname" . }}:11211',
     }
 }
 DATABASES = {
@@ -161,7 +161,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #    ('http://cluster2.example.com:5000/v2.0', 'cluster2'),
 #]
 
-OPENSTACK_KEYSTONE_URL = "https://openstack.cluster.local/identity/v3/"
+OPENSTACK_KEYSTONE_URL = "https://{{ template "helpers.labels.fullname" . }}identity/v3/"
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "member"
 
 # This setting specifies the name of the header with remote IP address. If not present,

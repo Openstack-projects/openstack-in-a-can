@@ -9,4 +9,4 @@ clouds:
       project_name: 'admin'
       project_domain_name: 'default'
       user_domain_name: 'default'
-      auth_url: 'https://openstack.cluster.local/identity/v3'
+      auth_url: 'https://{{ template "helpers.labels.fullname" . }}/identity/v3'

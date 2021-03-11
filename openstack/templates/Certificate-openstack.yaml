@@ -14,10 +14,12 @@ spec:
     kind: {{ .Values.params.endpoints.tls.issuer.kind }}
   commonName: {{ .Values.params.endpoints.hostname }}
   organization:
-    - Kubernetes API
+    - OpenStack-Helm
   dnsNames:
-    - {{ .Values.params.endpoints.hostname }}
-    - {{ template "helpers.labels.fullname" . }}
+    - "{{ .Values.params.endpoints.hostname }}"
+    - "{{ template "helpers.labels.fullname" . }}"
+    - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}"
+    - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.params.cluster.domain }}"
 ...
 {{- end -}}
 {{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Certificate-openstack" ) }}

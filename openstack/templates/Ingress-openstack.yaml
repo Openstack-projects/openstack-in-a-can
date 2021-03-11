@@ -10,7 +10,7 @@ metadata:
   name: openstack
 spec:
   rules:
-    - host: openstack.cluster.local
+    - host: "{{ .Values.params.endpoints.hostname }}"
       http:
         paths:
           - backend:
@@ -21,9 +21,12 @@ spec:
             path: /
             pathType: ImplementationSpecific
   tls:
-      - hosts:
-          - openstack.cluster.local
-        secretName: openstack-tls
+    - hosts:
+        - "{{ .Values.params.endpoints.hostname }}"
+        - "{{ template "helpers.labels.fullname" . }}"
+        - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}"
+        - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.params.cluster.domain }}"
+      secretName: openstack-tls
 ...
 {{- end -}}
 {{- include "helpers.template.overlay" ( dict "Global" $ "template_definition" "Ingress-openstack" ) }}

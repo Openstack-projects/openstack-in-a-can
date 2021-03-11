@@ -27,6 +27,8 @@ spec:
           hostnames:
             - "{{ .Values.params.endpoints.hostname }}"
             - "{{ template "helpers.labels.fullname" . }}"
+            - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}"
+            - "{{ template "helpers.labels.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.params.cluster.domain }}"
       nodeSelector:
 {{ include "helpers.pod.node_selector" ( dict "Global" $ "Application" "openstack" ) | nindent 8 }}
       initContainers: null
