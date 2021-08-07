@@ -17,8 +17,8 @@ RUN apt-get update ;\
         python3-dev \
         python3-minimal \
         python3-pip ;\
-    pip3 install --upgrade wheel setuptools ;\
-    pip3 install --upgrade ansible openstacksdk python-openstackclient python-heatclient openshift ;\
+    pip3 install --no-cache-dir --upgrade wheel setuptools ;\
+    pip3 install --no-cache-dir --upgrade ansible openstacksdk python-openstackclient python-heatclient openshift ;\
     curl -o /usr/local/bin/kubectl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" ;\
     chmod +x /usr/local/bin/kubectl ;\
     apt-get purge -y \
